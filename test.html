@@ -2,8 +2,12 @@
  <head>
  </head>
  <body>
-  <script src="https://www.puck-js.com/puck.js"></script>
-  <button onclick="Puck.write('LED1.set();\n');">On!</button>
-  <button onclick="Puck.write('LED1.reset();\n');">Off!</button>
+navigator.bluetooth.requestDevice(options).then(function(device) {
+  console.log('Name: ' + device.name);
+  // Do something with the device.
+})
+.catch(function(error) {
+  console.log("Something went wrong. " + error);
+});
  </body>
 </html>
