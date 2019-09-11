@@ -1,6 +1,12 @@
-let device = await navigator.bluetooth.requestDevice({
-    filters: [ 
+<!doctype html>
+<html>
+	<head>
+        
+        let device = await navigator.bluetooth.requestDevice({
+        filters: [ 
         { namePrefix: 'RFduino' } 
-    ],
+         ],
     
-});
+        });
+	</body>
+</html>
