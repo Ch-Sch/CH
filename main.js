@@ -4,17 +4,17 @@ let terminalContainer = document.getElementById('terminal');
 let sendForm = document.getElementById('send-form');
 let inputField = document.getElementById('input');
 
-// Подключение к устройству при нажатии на кнопку Connect
+// beim klick auf connect verbdindung herstellen
 connectButton.addEventListener('click', function() {
   connect();
 });
 
-// Отключение от устройства при нажатии на кнопку Disconnect
+// beim klick auf trennen verbindung beenden
 disconnectButton.addEventListener('click', function() {
   disconnect();
 });
 
-// Обработка события отправки формы
+// formularübermittlung
 sendForm.addEventListener('submit', function(event) {
   event.preventDefault(); // Предотвратить отправку формы
   send(inputField.value); // Отправить содержимое текстового поля
@@ -45,7 +45,7 @@ function requestBluetoothDevice() {
   log('Requesting bluetooth device...');
 
   return navigator.bluetooth.requestDevice({
-    filters: [{services: ['RFduino']}],
+    filters: [{services: [0x1800]}],
   }).
       then(device => {
         log('"' + device.name + '" bluetooth device selected');
