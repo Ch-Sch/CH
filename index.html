@@ -13,30 +13,48 @@
 </head>   
     
 <script>    
-let options = {
-    filters: [{
-        services: [0x2221],
-    }]
-};
-navigator.bluetooth
-    .requestDevice(options)
-    .then(device => {
-            .then(device => {
-                    console.log('Name:             ' + device.name);
-                    console.log('Id:               ' + device.id);
-                    console.log('Device Class:     ' + device.deviceClass);
-                    console.log('Vendor Id Source: ' + device.vendorIDSource);
-                    console.log('Vendor Id:        ' + device.vendorID);
-                    console.log('Product Id:       ' + device.productID);
-                    console.log('Product Version:  ' + device.productVersion);
-                    if (device.adData) {
-                        console.log('Tx Power:         ' + device.adData.txPower + ' dBm');
-                        console.log('RSSI:             ' + device.adData.rssi + ' dBm');
-                    }
-                })
-                .catch(error => {
-                    console.error(error);
-                });
+async function onButtonClick() {
+  let serviceUuid = document.querySelector('#service').value;
+  if (serviceUuid.startsWith('0x')) {
+    serviceUuid = parseInt(serviceUuid);
+  }
+
+  let characteristicUuid = document.querySelector('#characteristic').value;
+  if (characteristicUuid.startsWith('0x')) {
+    characteristicUuid = parseInt(characteristicUuid);
+  }
+
+  try {
+    log('Requesting Bluetooth Device...');
+    const device = await navigator.bluetooth.requestDevice({
+      filters: [{services: [0x2220]}]});
+
+    log('Connecting to GATT Server...');
+    const server = await device.gatt.connect();
+
+    log('Getting Service...');
+    const service = await server.getPrimaryService(serviceUuid);
+
+    log('Getting Characteristic...');
+    const characteristic = await service.getCharacteristic(characteristicUuid);
+
+    log('> Characteristic UUID:  ' + characteristic.uuid);
+    log('> Broadcast:            ' + characteristic.properties.broadcast);
+    log('> Read:                 ' + characteristic.properties.read);
+    log('> Write w/o response:   ' +
+      characteristic.properties.writeWithoutResponse);
+    log('> Write:                ' + characteristic.properties.write);
+    log('> Notify:               ' + characteristic.properties.notify);
+    log('> Indicate:             ' + characteristic.properties.indicate);
+    log('> Signed Write:         ' +
+      characteristic.properties.authenticatedSignedWrites);
+    log('> Queued Write:         ' + characteristic.properties.reliableWrite);
+    log('> Writable Auxiliaries: ' +
+      characteristic.properties.writableAuxiliaries);
+  } catch(error) {
+    log('Argh! ' + error);
+  }
+}
 </script>  
  
  
