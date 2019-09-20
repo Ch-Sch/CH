@@ -46,9 +46,8 @@ function requestBluetoothDevice() {
   log('Requesting bluetooth device...');
 
   return navigator.bluetooth.requestDevice({
-    filters: [0X2220] })
-   // acceptAllDevices: true,
-    //  optionalServices: [0x2200]})
+    filters: [{services: [0x2220]}],
+  }).
       then(device => {
         log('"' + device.name + '" bluetooth device selected');
         deviceCache = device;
@@ -83,17 +82,18 @@ function connectDeviceAndCacheCharacteristic(device) {
       then(server => {
         log('GATT server connected, getting service...');
 
-        return server.getPrimaryService(0x2221);
+        return server.getPrimaryService(0x2220);
       }).
       then(service => {
         log('Service found, getting characteristic...');
 
-        return service.getCharacteristic(0x2222);
+        return service.getCharacteristic(0x2221);
       }).
       then(characteristic => {
         log('Characteristic found');
-    
-         return characteristicCache;
+        characteristicCache = characteristic;
+
+        return characteristicCache;
       });
 }
 
