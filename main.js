@@ -40,23 +40,17 @@ function connect() {
       catch(error => log(error));
 }
 
-// Запрос выбора Bluetooth устройства
-function requestBluetoothDevice() {
-  log('Requesting bluetooth device...');
-
+function requestDevice() {
+  log('Requesting any Bluetooth Device...');
   return navigator.bluetooth.requestDevice({
-    filters: [{ namePrefix: 'RFduino' }],
-  }).
-      then(device => {
-        log('"' + device.name + '" bluetooth device selected');
-        deviceCache = device;
-        deviceCache.addEventListener('gattserverdisconnected',
-            handleDisconnection);
-
-        return deviceCache;
-      });
+   // filters: [...] <- Prefer filters to save energy & show relevant devices.
+      acceptAllDevices: true,
+      optionalServices: [0x2220]})
+  .then(device => {
+    bluetoothDevice = device;
+    bluetoothDevice.addEventListener('gattserverdisconnected', onDisconnected);
+  });
 }
-
 // Обработчик разъединения
 function handleDisconnection(event) {
   let device = event.target;
