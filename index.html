@@ -12,7 +12,15 @@
     <meta name="theme-color" content="#ffffff">
 </head>
 <body>
-
+    
+navigator.bluetooth.requestDevice({
+   // filters: [...] <- Prefer filters to save energy & show relevant devices.
+      acceptAllDevices: true,
+      optionalServices: optionalServices})
+  .then(device => {
+    log('Connecting to GATT Server...');
+    return device.gatt.connect();
+  })
 <button id="connect" type="button">Connect</button>
 
 <button id="disconnect" type="button">Disconnect</button>
