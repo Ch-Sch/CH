@@ -33,13 +33,7 @@ let readBuffer = '';
 
 // Запустить выбор Bluetooth устройства и подключиться к выбранному
 function connect() {
-  return (deviceCache ? Promise.resolve(deviceCache) :
-      requestBluetoothDevice()).
-      then(device => connectDeviceAndCacheCharacteristic(device)).
-      then(characteristic => startNotifications(characteristic)).
-      catch(error => log(error));
-
-  return navigator.bluetooth.requestDevice({
+    navigator.bluetooth.requestDevice({
    // filters: [...] <- Prefer filters to save energy & show relevant devices.
       acceptAllDevices: true,
       optionalServices: [0x2220]})
