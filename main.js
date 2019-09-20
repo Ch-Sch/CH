@@ -1,20 +1,21 @@
+// Получение ссылок на элементы UI
 let connectButton = document.getElementById('connect');
 let disconnectButton = document.getElementById('disconnect');
 let terminalContainer = document.getElementById('terminal');
 let sendForm = document.getElementById('send-form');
 let inputField = document.getElementById('input');
 
-// beim klick auf connect verbdindung herstellen
+// Подключение к устройству при нажатии на кнопку Connect
 connectButton.addEventListener('click', function() {
   connect();
 });
 
-// beim klick auf trennen verbindung beenden
+// Отключение от устройства при нажатии на кнопку Disconnect
 disconnectButton.addEventListener('click', function() {
   disconnect();
 });
 
-// formularübermittlung
+// Обработка события отправки формы
 sendForm.addEventListener('submit', function(event) {
   event.preventDefault(); // Предотвратить отправку формы
   send(inputField.value); // Отправить содержимое текстового поля
@@ -33,15 +34,30 @@ let readBuffer = '';
 
 // Запустить выбор Bluetooth устройства и подключиться к выбранному
 function connect() {
-    navigator.bluetooth.requestDevice({
-   // filters: [...] <- Prefer filters to save energy & show relevant devices.
-      acceptAllDevices: true,
-      optionalServices: [0x2220]})
-  .then(device => {
-    bluetoothDevice = device;
-    bluetoothDevice.addEventListener('gattserverdisconnected', onDisconnected);
-  });
+  return (deviceCache ? Promise.resolve(deviceCache) :
+      requestBluetoothDevice()).
+      then(device => connectDeviceAndCacheCharacteristic(device)).
+      then(characteristic => startNotifications(characteristic)).
+      catch(error => log(error));
 }
+
+// Запрос выбора Bluetooth устройства
+function requestBluetoothDevice() {
+  log('Requesting bluetooth device...');
+
+  return navigator.bluetooth.requestDevice({
+    filters: [{services: [0x2220]}],
+  }).
+      then(device => {
+        log('"' + device.name + '" bluetooth device selected');
+        deviceCache = device;
+        deviceCache.addEventListener('gattserverdisconnected',
+            handleDisconnection);
+
+        return deviceCache;
+      });
+}
+
 // Обработчик разъединения
 function handleDisconnection(event) {
   let device = event.target;
@@ -66,12 +82,12 @@ function connectDeviceAndCacheCharacteristic(device) {
       then(server => {
         log('GATT server connected, getting service...');
 
-        return server.getPrimaryService(0xFFE0);
+        return server.getPrimaryService(0x2220);
       }).
       then(service => {
         log('Service found, getting characteristic...');
 
-        return service.getCharacteristic(0xFFE1);
+        return service.getCharacteristic(0x2220);
       }).
       then(characteristic => {
         log('Characteristic found');
