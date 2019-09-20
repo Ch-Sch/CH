@@ -38,10 +38,7 @@ function connect() {
       then(device => connectDeviceAndCacheCharacteristic(device)).
       then(characteristic => startNotifications(characteristic)).
       catch(error => log(error));
-}
 
-function requestDevice() {
-  log('Requesting any Bluetooth Device...');
   return navigator.bluetooth.requestDevice({
    // filters: [...] <- Prefer filters to save energy & show relevant devices.
       acceptAllDevices: true,
