@@ -13,31 +13,18 @@
 </head>   
     
 <script>    
-let serviceUuid = document.querySelector('#service').value;
-  if (serviceUuid.startsWith('0x')) {
-    serviceUuid = parseInt(serviceUuid);
-  }
 
-  let characteristicUuid = document.querySelector('#characteristic').value;
-  if (characteristicUuid.startsWith('0x')) {
-    characteristicUuid = parseInt(characteristicUuid);
-  }
-
-  try {
+  let {
     log('Requesting Bluetooth Device...');
     const device = await navigator.bluetooth.requestDevice({
-      filters: [{services: [serviceUuid]}]});
+      filters: [{services: [0x2220]}]});
 
     log('Connecting to GATT Server...');
-    const server = await device.gatt.connect();
+    device.gatt.connect();
 
-    log('Getting Service...');
-    const service = await server.getPrimaryService(serviceUuid);
 
-    log('Getting Characteristic...');
-    const characteristic = await service.getCharacteristic(characteristicUuid);
 
-    log('> Characteristic UUID:  ' + characteristic.uuid);
+    
     log('> Broadcast:            ' + characteristic.properties.broadcast);
     log('> Read:                 ' + characteristic.properties.read);
     log('> Write w/o response:   ' +
