@@ -22,8 +22,6 @@ sendForm.addEventListener('submit', function(event) {
   inputField.value = '';  // Обнулить текстовое поле
   inputField.focus();     // Вернуть фокус на текстовое поле
 });
-
-<form action = "index.html" = "post"/>
   
   
 // Кэш объекта выбранного устройства
