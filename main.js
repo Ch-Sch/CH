@@ -28,18 +28,18 @@ let characteristicCache = null;
  Zwischenpuffer
 let readBuffer = '';
 
-function connect() {
-  return (deviceCache ? Promise.resolve(deviceCache) :
-      requestBluetoothDevice()).
-      then(device => connectDeviceAndCacheCharacteristic(device)).
-      then(characteristic => startNotifications(characteristic)).
-      catch(error => log(error));
-}
+//function connect() {
+//  return (deviceCache ? Promise.resolve(deviceCache) :
+//      requestBluetoothDevice()).
+//      then(device => connectDeviceAndCacheCharacteristic(device)).
+//      then(characteristic => startNotifications(characteristic)).
+//      catch(error => log(error));
+//}
 
 function requestBluetoothDevice() {
   log('Requesting bluetooth device...');
   
-  
+function connect() {  
 navigator.bluetooth.requestDevice({ filters: [{ services: [0x2220] }] })
 .then(device => device.gatt.connect())
 .then(server => server.getPrimaryService(0x2220))
