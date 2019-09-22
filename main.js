@@ -51,7 +51,7 @@ return navigator.bluetooth.requestDevice({ filters: [{ services: [0x2220] }] })
   console.log('User Description: ' + decoder.decode(value));
 })
 .catch(error => { console.log(error); });
-  
+}
   
 
 //  return navigator.bluetooth.requestDevice({
@@ -67,11 +67,11 @@ return navigator.bluetooth.requestDevice({ filters: [{ services: [0x2220] }] })
 //      });
 //}
 
-function handleDisconnection(event) {
-  let device = event.target;
+//function handleDisconnection(event) {
+ // let device = event.target;
 
-  log('"' + device.name +
-      '" bluetooth device disconnected, trying to reconnect...');
+//  log('"' + device.name +
+//      '" bluetooth device disconnected, trying to reconnect...');
 
 //  connectDeviceAndCacheCharacteristic(device).
   //    then(characteristic => startNotifications(characteristic)).
