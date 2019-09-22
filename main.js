@@ -92,23 +92,17 @@ function connectDeviceAndCacheCharacteristic(device) {
     console.error(error);
 });
     
-  
-      then(characteristic => {
-        log('Characteristic found');
-        characteristicCache = characteristic;
+}  
 
-        return characteristicCache;
-      });
-}
 
-//function startNotifications(characteristic) {
-//  log('Starting notifications...');
+function startNotifications(characteristic) {
+  log('Starting notifications...');
 
-//  return characteristic.startNotifications().
- //     then(() => {
-   //     log('Notifications started');
-     //   characteristic.addEventListener('characteristicvaluechanged',
-       //     handleCharacteristicValueChanged);
+  return characteristic.startNotifications().
+      then(() => {
+        log('Notifications started');
+        characteristic.addEventListener('characteristicvaluechanged',
+            handleCharacteristicValueChanged);
       });
 }
 
