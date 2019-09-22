@@ -13,20 +13,20 @@ disconnectButton.addEventListener('click', function() {
   disconnect();
 });
 
-// Sendeformular
-//sendForm.addEventListener('submit', function(event) {
- // event.preventDefault(); // Предотвратить отправку формы
-  //send(inputField.value); // Отправить содержимое текстового поля
-  //inputField.value = '';  // Обнулить текстовое поле
-  //inputField.focus();     // Вернуть фокус на текстовое поле
-//});
+Sendeformular
+sendForm.addEventListener('submit', function(event) {
+ event.preventDefault(); // Предотвратить отправку формы
+ send(inputField.value); // Отправить содержимое текстового поля
+ inputField.value = '';  // Обнулить текстовое поле
+ inputField.focus();     // Вернуть фокус на текстовое поле
+});
     
-//let deviceCache = null;
+let deviceCache = null;
 
-//let characteristicCache = null;
+let characteristicCache = null;
 
-// Zwischenpuffer
-//let readBuffer = '';
+ Zwischenpuffer
+let readBuffer = '';
 
 function connect() {
   return (deviceCache ? Promise.resolve(deviceCache) :
@@ -42,6 +42,7 @@ function requestBluetoothDevice() {
   
 return navigator.bluetooth.requestDevice({ filters: [{ services: [0x2220] }] })
 .then(device => device.gatt.connect())
+  log('"' + device.name + '" bluetooth device selected');
 .then(server => server.getPrimaryService(0x2220))
 .then(service => service.getCharacteristic(0x2221'))
 .then(characteristic => characteristic.getDescriptor('gatt.characteristic_user_description'))
