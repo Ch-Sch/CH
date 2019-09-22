@@ -121,7 +121,6 @@ function handleDisconnection(event) {
       //});
 //}
 
-// Получение данных
 function handleCharacteristicValueChanged(event) {
   let value = new TextDecoder().decode(event.target.value);
 
