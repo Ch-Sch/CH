@@ -81,19 +81,23 @@ function connectDeviceAndCacheCharacteristic(device) {
 
         return service.getCharacteristic(0x2221);
       }).
+   // 5.) Zugriff auf die der Charakteristik hinterlegten Daten
+      then(characteristic => {
+      return characteristic.readValue();
+      }).
+      then(value => {
+    // Zugriff auf Wert
+       }).
+    catch(error => {
+    console.error(error);
+});
+  
+  
+  
       then(characteristic => {
         log('Characteristic found');
         characteristicCache = characteristic;
 
-//     .then(characteristic => {
-      
-//    return characteristic.readValue();
-//  }).
-//  .then(value => {
-    // Zugriff auf Wert
-//     .catch(error => {
-//    console.error(error);
-//});
         return characteristicCache;
       });
 }
