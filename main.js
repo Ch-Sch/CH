@@ -40,9 +40,8 @@ function requestBluetoothDevice() {
   log('Requesting bluetooth device...');
   
   
-return navigator.bluetooth.requestDevice({ filters: [{ services: [0x2220] }] })
+navigator.bluetooth.requestDevice({ filters: [{ services: [0x2220] }] })
 .then(device => device.gatt.connect())
-  log('"' + device.name + '" bluetooth device selected');
 .then(server => server.getPrimaryService(0x2220))
 .then(service => service.getCharacteristic(0x2221'))
 .then(characteristic => characteristic.getDescriptor('gatt.characteristic_user_description'))
