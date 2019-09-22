@@ -94,8 +94,17 @@ function connectDeviceAndCacheCharacteristic(device) {
         log('Characteristic found');
         characteristicCache = characteristic;
 
-        return characteristicCache;
-      });
+     .then(characteristic => {
+      
+    return characteristic.readValue();
+  }).
+  .then(value => {
+    // Zugriff auf Wert
+      .catch(error => {
+    console.error(error);
+});
+        //return characteristicCache;
+     // });
 }
 
 // Включение получения уведомлений об изменении характеристики
