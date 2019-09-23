@@ -14,12 +14,12 @@ disconnectButton.addEventListener('click', function() {
 });
 
 //Sendeformular
-//sendForm.addEventListener('submit', function(event) {
-// event.preventDefault(); // Предотвратить отправку формы
-// send(inputField.value); // Отправить содержимое текстового поля
-// inputField.value = '';  // Обнулить текстовое поле
-// inputField.focus();     // Вернуть фокус на текстовое поле
-//});
+sendForm.addEventListener('submit', function(event) {
+ event.preventDefault(); // Предотвратить отправку формы
+ send(inputField.value); // Отправить содержимое текстового поля
+ inputField.value = '';  // Обнулить текстовое поле
+ inputField.focus();     // Вернуть фокус на текстовое поле
+});
     
 let deviceCache = null;
 
@@ -28,19 +28,19 @@ let characteristicCache = null;
 //Zwischenpuffer
 let readBuffer = '';
 
-//function connect() {
-//  return (deviceCache ? Promise.resolve(deviceCache) :
-//      requestBluetoothDevice()).
-//      then(device => connectDeviceAndCacheCharacteristic(device)).
-//      then(characteristic => startNotifications(characteristic)).
-//      catch(error => log(error));
-//}
+function connect() {
+  return (deviceCache ? Promise.resolve(deviceCache) :
+      requestBluetoothDevice()).
+      then(device => connectDeviceAndCacheCharacteristic(device)).
+      then(characteristic => startNotifications(characteristic)).
+      catch(error => log(error));
+}
 
 function requestBluetoothDevice() {
   log('Requesting bluetooth device...');
   
-function connect() {  
-navigator.bluetooth.requestDevice({ filters: [{ services: [0x2220] }] })
+
+return navigator.bluetooth.requestDevice({ filters: [{ services: [0x2220] }] })
 .then(device => device.gatt.connect())
 .then(server => server.getPrimaryService(0x2220))
 .then(service => service.getCharacteristic(0x2221))
@@ -49,8 +49,6 @@ navigator.bluetooth.requestDevice({ filters: [{ services: [0x2220] }] })
 .then(value => {
   let decoder = new TextDecoder('utf-8');
   console.log('User Description: ' + decoder.decode(value));
-})
-.catch(error => { console.log(error); });
 }
   
 
