@@ -13,7 +13,7 @@ disconnectButton.addEventListener('click', function() {
   disconnect();
 });
 
-Sendeformular
+//Sendeformular
 sendForm.addEventListener('submit', function(event) {
  event.preventDefault(); // Предотвратить отправку формы
  send(inputField.value); // Отправить содержимое текстового поля
@@ -25,7 +25,7 @@ let deviceCache = null;
 
 let characteristicCache = null;
 
- Zwischenpuffer
+//Zwischenpuffer
 let readBuffer = '';
 
 //function connect() {
