@@ -43,7 +43,7 @@ function connect() {
 navigator.bluetooth.requestDevice({ filters: [{ services: [0x2220] }] })
 .then(device => device.gatt.connect())
 .then(server => server.getPrimaryService(0x2220))
-.then(service => service.getCharacteristic(0x2221'))
+.then(service => service.getCharacteristic(0x2221))
 .then(characteristic => characteristic.getDescriptor('gatt.characteristic_user_description'))
 .then(descriptor => descriptor.readValue())
 .then(value => {
