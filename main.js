@@ -14,12 +14,12 @@ disconnectButton.addEventListener('click', function() {
 });
 
 //Sendeformular
-sendForm.addEventListener('submit', function(event) {
- event.preventDefault(); // Предотвратить отправку формы
- send(inputField.value); // Отправить содержимое текстового поля
- inputField.value = '';  // Обнулить текстовое поле
- inputField.focus();     // Вернуть фокус на текстовое поле
-});
+//sendForm.addEventListener('submit', function(event) {
+// event.preventDefault(); // Предотвратить отправку формы
+// send(inputField.value); // Отправить содержимое текстового поля
+// inputField.value = '';  // Обнулить текстовое поле
+// inputField.focus();     // Вернуть фокус на текстовое поле
+//});
     
 let deviceCache = null;
 
@@ -68,26 +68,26 @@ navigator.bluetooth.requestDevice({ filters: [{ services: [0x2220] }] })
 //}
 
 //function handleDisconnection(event) {
- // let device = event.target;
+// let device = event.target;
 
 //  log('"' + device.name +
 //      '" bluetooth device disconnected, trying to reconnect...');
 
-//  connectDeviceAndCacheCharacteristic(device).
-  //    then(characteristic => startNotifications(characteristic)).
-    //  catch(error => log(error));
+ // connectDeviceAndCacheCharacteristic(device).
+//      then(characteristic => startNotifications(characteristic)).
+//      catch(error => log(error));
 //}
 
-//function connectDeviceAndCacheCharacteristic(device) {
-  //if (device.gatt.connected && characteristicCache) {
-    //return Promise.resolve(characteristicCache);
-  //}
+function connectDeviceAndCacheCharacteristic(device) {
+  if (device.gatt.connected && characteristicCache) {
+    return Promise.resolve(characteristicCache);
+  }
 
-  //log('Connecting to GATT server...');
+  log('Connecting to GATT server...');
 
-  //return device.gatt.connect().
-    //  then(server => {
-      //  log('GATT server connected, getting service...');
+  return device.gatt.connect().
+      then(server => {
+     /  log('GATT server connected, getting service...');
 
         //return server.getPrimaryService(0x2220);
       //}).
