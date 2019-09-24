@@ -78,19 +78,14 @@ function connectDeviceAndCacheCharacteristic(device) {
 
         return service.getCharacteristic(0x2221);
       }).
-    //  then(characteristic => {
-    //    log('Characteristic found');
-    //    characteristicCache = characteristic;
+      then(characteristic => {
+        log('Characteristic found');
+        characteristicCache = characteristic;
         
         
         
         
-        
-       then(characteristic => characteristic.getDescriptor('gatt.characteristic_user_description'))
-       then(descriptor => descriptor.readValue())
-       then(value => {
-          let decoder = new TextDecoder('utf-8');
-        console.log('User Description: ' + decoder.decode(value));
+  
 }
         
         
