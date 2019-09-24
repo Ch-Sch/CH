@@ -1,6 +1,6 @@
 let connectButton = document.getElementById('connect');
 let disconnectButton = document.getElementById('disconnect');
-//let terminalContainer = document.getElementById('terminal');
+let terminalContainer = document.getElementById('terminal');
 //let sendForm = document.getElementById('send-form');
 //let inputField = document.getElementById('input');
 
@@ -12,12 +12,12 @@ disconnectButton.addEventListener('click', function() {
   disconnect();
 });
 
-//sendForm.addEventListener('submit', function(event) {
- // event.preventDefault(); // Предотвратить отправку формы
-  //send(inputField.value); // Отправить содержимое текстового поля
-  //inputField.value = '';  // Обнулить текстовое поле
-  //inputField.focus();     // Вернуть фокус на текстовое поле
-//});
+sendForm.addEventListener('submit', function(event) {
+  event.preventDefault(); 
+  send(inputField.value); 
+  inputField.value = '';  
+  inputField.focus();     
+});
 
 let deviceCache = null;
 
@@ -158,26 +158,26 @@ function disconnect() {
   //  return;
   //}
 
-  //data += '\n';
+  data += '\n';
 
-  //if (data.length > 20) {
-    //let chunks = data.match(/(.|[\r\n]){1,20}/g);
+  if (data.length > 20) {
+    let chunks = data.match(/(.|[\r\n]){1,20}/g);
 
-    //writeToCharacteristic(characteristicCache, chunks[0]);
+    writeToCharacteristic(characteristicCache, chunks[0]);
 
-    //for (let i = 1; i < chunks.length; i++) {
-     // setTimeout(() => {
-      //  writeToCharacteristic(characteristicCache, chunks[i]);
-      //}, i * 100);
-   // }
- // }
-  //else {
-   // writeToCharacteristic(characteristicCache, data);
- // }
+   for (let i = 1; i < chunks.length; i++) {
+      setTimeout(() => {
+       writeToCharacteristic(characteristicCache, chunks[i]);
+      }, i * 100);
+    }
+  }
+  else {
+    writeToCharacteristic(characteristicCache, data);
+  }
 
-//  log(data, 'out');
-//}
+  log(data, 'out');
+}
 
-//function writeToCharacteristic(characteristic, data) {
-  //characteristic.writeValue(new TextEncoder().encode(data));
-//}
+function writeToCharacteristic(characteristic, data) {
+  characteristic.writeValue(new TextEncoder().encode(data));
+}
