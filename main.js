@@ -1,8 +1,8 @@
 let connectButton = document.getElementById('connect');
 let disconnectButton = document.getElementById('disconnect');
 let terminalContainer = document.getElementById('terminal');
-//let sendForm = document.getElementById('send-form');
-//let inputField = document.getElementById('input');
+let sendForm = document.getElementById('send-form');
+let inputField = document.getElementById('input');
 
 connectButton.addEventListener('click', function() {
   connect();
@@ -97,33 +97,33 @@ function startNotifications(characteristic) {
       });
 }
 
-//function handleCharacteristicValueChanged(event) {
-  //let value = new TextDecoder().decode(event.target.value);
+function handleCharacteristicValueChanged(event) {
+  let value = new TextDecoder().decode(event.target.value);
 
-  //for (let c of value) {
-    //if (c === '\n') {
-      //let data = readBuffer.trim();
-      //readBuffer = '';
+  for (let c of value) {
+    if (c === '\n') {
+      let data = readBuffer.trim();
+      readBuffer = '';
 
-      //if (data) {
-        //receive(data);
-      //}
-   // }
-    //else {
-      //readBuffer += c;
-    //}
-  //}
-//}
+      if (data) {
+        receive(data);
+      }
+    }
+    else {
+      readBuffer += c;
+    }
+  }
+}
 
-//function receive(data) {
-  //log(data, 'in');
-//}
+function receive(data) {
+  log(data, 'in');
+}
 
 
-//function log(data, type = '') {
-  //terminalContainer.insertAdjacentHTML('beforeend',
-    //  '<div' + (type ? ' class="' + type + '"' : '') + '>' + data + '</div>');
-//}
+function log(data, type = '') {
+  terminalContainer.insertAdjacentHTML('beforeend',
+      '<div' + (type ? ' class="' + type + '"' : '') + '>' + data + '</div>');
+}
 
 
 function disconnect() {
@@ -151,12 +151,12 @@ function disconnect() {
   deviceCache = null;
 }
 
-//function send(data) {
-//  data = String(data);
+function send(data) {
+  data = String(data);
 
-//  if (!data || !characteristicCache) {
-  //  return;
-  //}
+  if (!data || !characteristicCache) {
+    return;
+  }
 
   data += '\n';
 
