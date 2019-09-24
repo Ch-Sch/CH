@@ -15,7 +15,7 @@ disconnectButton.addEventListener('click', function() {
 sendForm.addEventListener('submit', function(event) {
   event.preventDefault(); 
   send(inputField.value); 
-  inputField.value = '';  
+  inputField.value = serial.print;  
   inputField.focus();     
 });
 
