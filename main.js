@@ -119,12 +119,10 @@ function receive(data) {
   log(data, 'in');
 }
 
-
 function log(data, type = '') {
   terminalContainer.insertAdjacentHTML('beforeend',
       '<div' + (type ? ' class="' + type + '"' : '') + '>' + data + '</div>');
 }
-
 
 function disconnect() {
   if (deviceCache) {
@@ -165,9 +163,9 @@ function send(data) {
 
     writeToCharacteristic(characteristicCache, chunks[0]);
 
-   for (let i = 1; i < chunks.length; i++) {
+    for (let i = 1; i < chunks.length; i++) {
       setTimeout(() => {
-       writeToCharacteristic(characteristicCache, chunks[i]);
+        writeToCharacteristic(characteristicCache, chunks[i]);
       }, i * 100);
     }
   }
