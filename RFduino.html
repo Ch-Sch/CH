@@ -40,28 +40,23 @@
       }
       button.addEventListener('pointerup', function(event) {
         navigator.bluetooth.requestDevice({
-            filters: [{ services: [0x1800,0x2220] }]
+            filters: [{ services: [0x2220] }]
                    })
          log('Requesting bluetooth device...');
           .then((device) => {
             return device.gatt.connect();
-          log('Gatt connecting...');
           })
           .then(server => {
             return server.getPrimaryService(0x2220);
                    })
-          log('getting Primary Service...');
             .then(service => {
             return service.getCharacteristic(0x2221);
-         
-          })
-         log('getting Characteristics...');
+                   })
           .then(characteristic => characteristic.startNotifications())
         
           .then(characteristic => {
             characteristic.addEventListener('characteristicvaluechanged', handleCharacteristicValueChanged);
           })
-        log('starting Notifications...');
           .catch(error => { console.log(error); });
           function handleCharacteristicValueChanged(event) {
             var value = event.target.value;
