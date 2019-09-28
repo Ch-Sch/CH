@@ -26,7 +26,19 @@
 .then(value => {
   console.log('Voltage is ' + value.getUint8(0));
 })
+.then(characteristic => {
+  // Set up event listener for when characteristic value changes.
+  characteristic.addEventListener('characteristicvaluechanged',
+                                  handleBatteryLevelChanged);
+  // Reading Battery Level...
+  return characteristic.readValue();
+})
 .catch(error => { console.log(error); });
+
+function handleBatteryLevelChanged(event) {
+  let batteryLevel = event.target.value.getUint8(0);
+  console.log('Battery percentage is ' + batteryLevel);
+}
   </script>
 </body>
 </html>
