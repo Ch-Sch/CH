@@ -41,17 +41,22 @@
       button.addEventListener('pointerup', function(event) {
         navigator.bluetooth.requestDevice({
             filters: [{ services: [0x1800,0x2220] }]
+          log('Requesting bluetooth device...');
           })
           .then((device) => {
             return device.gatt.connect();
+          log('Gatt connecting...');
           })
           .then(server => {
             return server.getPrimaryService(0x2220);
+          log('getting Primary Service...');
           })
           .then(service => {
             return service.getCharacteristic(0x2221);
+          log('getting Characteristics...');
           })
           .then(characteristic => characteristic.startNotifications())
+        log('starting Notifications...');
           .then(characteristic => {
             characteristic.addEventListener('characteristicvaluechanged', handleCharacteristicValueChanged);
           })
@@ -59,6 +64,7 @@
           function handleCharacteristicValueChanged(event) {
             var value = event.target.value;
             console.log(parseValue(value));
+            log(parseValue(value));
             // See https://github.com/WebBluetoothCG/demos/blob/gh-pages/heart-rate-sensor/heartRateSensor.js
           }
       });
