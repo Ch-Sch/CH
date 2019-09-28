@@ -20,24 +20,17 @@
   return service.getCharacteristic(0x2221);
 })
 .then(characteristic => {
-  // Reading Battery Level...
-  return characteristic.readValue();
-})
-.then(value => {
-  console.log('Voltage is ' + value.getUint8(0));
-})
-.then(characteristic => {
   // Set up event listener for when characteristic value changes.
   characteristic.addEventListener('characteristicvaluechanged',
-                                  handleBatteryLevelChanged);
+                                  handleVoltageLevelChanged);
   // Reading Battery Level...
   return characteristic.readValue();
 })
 .catch(error => { console.log(error); });
 
-function handleBatteryLevelChanged(event) {
-  let batteryLevel = event.target.value.getUint8(0);
-  console.log('Battery percentage is ' + batteryLevel);
+function handleVoltageLevelChanged(event) {
+  let voltvalue = event.target.value.getUint8(0);
+  console.log('Voltage is ' + voltvalue);
 }
   </script>
 </body>
