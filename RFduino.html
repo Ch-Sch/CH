@@ -40,7 +40,7 @@
       }
       button.addEventListener('pointerup', function(event) {
         navigator.bluetooth.requestDevice({
-            filters: [{ services: [0x2220] }]
+            filters: [{ services: [0x2220,0x2221] }]
           })
           .then((device) => {
             return device.gatt.connect();
