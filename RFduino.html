@@ -9,60 +9,24 @@
 <body>
   <button id="pair">Pair device</button>
   <script>
-    window.onload = () => {
-      const button = document.getElementById('pair')
-      parseValue = (value) => {
-        // DataView.
-        value = value.buffer ? value : new DataView(value);
-        let flags = value.getUint8(0);
-        // Format
-        let rate16Bits = flags & 0x1;
-        let result = {};
-        let index = 1;
-        // Typ
-        if (rate16Bits) {
-          result.voltage = value.getUint16(index, /*littleEndian=*/true);
-          index += 2;
-        } else {
-          result.voltage = value.getUint8(index);
-          index += 1;
-        }
-        // RR Intervall
-        let rrIntervalPresent = flags & 0x10;
-        if (rrIntervalPresent) {
-          let rrIntervals = [];
-          for (; index + 1 < value.byteLength; index += 2) {
-            rrIntervals.push(value.getUint16(index, /*littleEndian=*/true));
-          }
-          result.rrIntervals = rrIntervals;
-        }
-        return result;
-      }
-      button.addEventListener('pointerup', function(event) {
-        navigator.bluetooth.requestDevice({
-            filters: [{ services: [0x2220,0x2221] }]
-          })
-          .then((device) => {
-            return device.gatt.connect();
-          })
-          .then(server => {
-            return server.getPrimaryService(0x2220);
-          })
-          .then(service => {
-            return service.getCharacteristic(0x2221);
-          })
-          .then(characteristic => characteristic.startNotifications())
-          .then(characteristic => {
-            characteristic.addEventListener('characteristicvaluechanged', handleCharacteristicValueChanged);
-          })
-          .catch(error => { console.log(error); });
-          function handleCharacteristicValueChanged(event) {
-            var value = event.target.value;
-            console.log(parseValue(value));
-            // See https://github.com/WebBluetoothCG/demos/blob/gh-pages/heart-rate-sensor/heartRateSensor.js
-          }
-      });
-    }
+  navigator.bluetooth.requestDevice({ filters: [{ services: [0x2220] }] })
+.then(device => device.gatt.connect())
+.then(server => {
+  // Getting Battery Service...
+  return server.getPrimaryService(0x2220);
+})
+.then(service => {
+  // Getting Battery Level Characteristic...
+  return service.getCharacteristic(0x2221);
+})
+.then(characteristic => {
+  // Reading Battery Level...
+  return characteristic.readValue();
+})
+.then(value => {
+  console.log('Voltage is ' + value.getUint8(0));
+})
+.catch(error => { console.log(error); });
   </script>
 </body>
 </html>
