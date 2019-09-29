@@ -2,7 +2,7 @@ var canvas = document.querySelector('canvas');
 var statusText = document.querySelector('#statusText');
 
 statusText.addEventListener('click', function() {
-  statusText.textContent = 'Breathe...';
+  statusText.textContent = 'Searching...';
   heartRates = [];
   heartRateSensor.connect()
   .then(() => heartRateSensor.startNotificationsHeartRateMeasurement().then(handleHeartRateMeasurement))
@@ -14,7 +14,7 @@ statusText.addEventListener('click', function() {
 function handleHeartRateMeasurement(heartRateMeasurement) {
   heartRateMeasurement.addEventListener('characteristicvaluechanged', event => {
     var heartRateMeasurement = heartRateSensor.parseHeartRate(event.target.value);
-    statusText.innerHTML = heartRateMeasurement.heartRate + ' &#x2764;';
+    statusText.innerHTML = heartRateMeasurement.heartRate + ' Volt;';
     heartRates.push(heartRateMeasurement.heartRate);
     drawWaves();
   });
@@ -38,7 +38,7 @@ function drawWaves() {
     var max = Math.max(0, Math.round(canvas.width / 11));
     var offset = Math.max(0, heartRates.length - max);
     context.clearRect(0, 0, canvas.width, canvas.height);
-    context.strokeStyle = '#00796B';
+    context.strokeStyle = '#1842b5';
     if (mode === 'bar') {
       for (var i = 0; i < Math.max(heartRates.length, max); i++) {
         var barHeight = Math.round(heartRates[i + offset ] * canvas.height / 200);
