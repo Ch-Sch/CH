@@ -83,7 +83,7 @@
        // result.rrIntervals = rrIntervals;
      //} 
  
-      return result;
+     // return result;
     //}
 
     /* Utils */
