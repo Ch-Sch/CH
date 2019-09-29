@@ -8,7 +8,7 @@
       this._characteristics = new Map();
     }
     connect() {
-      return navigator.bluetooth.requestDevice({filters:[{services:[ 'heart_rate' ]}]})
+      return navigator.bluetooth.requestDevice({filters:[{services:[0x2220]}]})
       .then(device => {
         this.device = device;
         return device.gatt.connect();
@@ -16,7 +16,7 @@
       .then(server => {
         this.server = server;
         return Promise.all([
-          server.getPrimaryService('heart_rate').then(service => {
+          server.getPrimaryService(0x2220).then(service => {
             return Promise.all([
               this._cacheCharacteristic(service, 'body_sensor_location'),
               this._cacheCharacteristic(service, 'heart_rate_measurement'),
