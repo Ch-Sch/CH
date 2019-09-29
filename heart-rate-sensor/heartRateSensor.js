@@ -19,7 +19,7 @@
           server.getPrimaryService(0x2220).then(service => {
             return Promise.all([
               this._cacheCharacteristic(service, 'body_sensor_location'),
-              this._cacheCharacteristic(service, 'heart_rate_measurement'),
+              this._cacheCharacteristic(service, 0x2221),
             ])
           })
         ]);
@@ -45,10 +45,10 @@
      });
     }
     startNotificationsHeartRateMeasurement() {
-      return this._startNotifications('heart_rate_measurement');
+      return this._startNotifications(0x2221);
     }
     stopNotificationsHeartRateMeasurement() {
-      return this._stopNotifications('heart_rate_measurement');
+      return this._stopNotifications(0x2221);
     }
     parseHeartRate(value) {
       // In Chrome 50+, a DataView is returned instead of an ArrayBuffer.
