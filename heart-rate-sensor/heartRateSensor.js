@@ -59,32 +59,32 @@
       let index = 1;
       if (rate16Bits) {
         result.heartRate = value.getUint16;//(index, /*littleEndian=*/false);
-       // index += 2;
+        index += 2;
       } else {
         result.heartRate = value.getUint8;//(index);
-       // index += 1;
+        index += 1;
       }
-      //let contactDetected = flags & 0x2;
-      //let contactSensorPresent = flags & 0x4;
-      //if (contactSensorPresent) {
-        //result.contactDetected = !!contactDetected;
-     // }
-     // let energyPresent = flags & 0x8;
-     // if (energyPresent) {
-     //   result.energyExpended = value.getUint16(index, /*littleEndian=*/false);
-     //   index += 2;
-     // } 
-     // let rrIntervalPresent = flags & 0x10;
-    //  if (rrIntervalPresent) {
-      //  let rrIntervals = [];
-       // for (; index + 1 < value.byteLength; index += 2) {
-        //  rrIntervals.push(value.getUint16(index, /*littleEndian=*/false));
-       // }
-       // result.rrIntervals = rrIntervals;
-     //} 
+      let contactDetected = flags & 0x2;
+      let contactSensorPresent = flags & 0x4;
+      if (contactSensorPresent) {
+        result.contactDetected = !!contactDetected;
+      }
+      let energyPresent = flags & 0x8;
+      if (energyPresent) {
+        result.energyExpended = value.getUint16(index, /*littleEndian=*/false);
+        index += 2;
+      } 
+      let rrIntervalPresent = flags & 0x10;
+      if (rrIntervalPresent) {
+        let rrIntervals = [];
+        for (; index + 1 < value.byteLength; index += 2) {
+          rrIntervals.push(value.getUint16(index, /*littleEndian=*/false));
+        }
+        result.rrIntervals = rrIntervals;
+     } 
  
-     // return result;
-    //}
+      return result;
+    }
 
     /* Utils */
 
@@ -109,15 +109,15 @@
     }
     _startNotifications(characteristicUuid) {
       let characteristic = this._characteristics.get(characteristicUuid);
-      // Returns characteristic to set up characteristicvaluechanged event
-      // handlers in the resolved promise.
+       Returns characteristic to set up characteristicvaluechanged event
+       handlers in the resolved promise.
       return characteristic.startNotifications()
       .then(() => characteristic);
     }
     _stopNotifications(characteristicUuid) {
       let characteristic = this._characteristics.get(characteristicUuid);
-      // Returns characteristic to remove characteristicvaluechanged event
-      // handlers in the resolved promise.
+       Returns characteristic to remove characteristicvaluechanged event
+       handlers in the resolved promise.
       return characteristic.stopNotifications()
       .then(() => characteristic);
     }
