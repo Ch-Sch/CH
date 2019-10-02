@@ -58,7 +58,7 @@
       let result = {};
       let index = 1;
       if (rate16Bits) {
-        result.heartRate = value.getUint16;(index, /*littleEndian=*/false);
+        result.heartRate = value.getUint16;(index, /*littleEndian=*/true
         index += 2;
       } else {
         result.heartRate = value.getUint8;(index);
@@ -71,14 +71,14 @@
       }
       let energyPresent = flags & 0x8;
       if (energyPresent) {
-        result.energyExpended = value.getUint16(index, /*littleEndian=*/false);
+        result.energyExpended = value.getUint16(index, /*littleEndian=*/true
         index += 2;
       } 
       let rrIntervalPresent = flags & 0x10;
       if (rrIntervalPresent) {
         let rrIntervals = [];
         for (; index + 1 < value.byteLength; index += 2) {
-          rrIntervals.push(value.getUint16(index, /*littleEndian=*/false));
+          rrIntervals.push(value.getUint16(index, /*littleEndian=*/true
         }
         result.rrIntervals = rrIntervals;
      } 
