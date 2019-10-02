@@ -58,10 +58,10 @@
       let result = {};
       let index = 1;
       if (rate16Bits) {
-        result.heartRate = value.getUint16;//(index, /*littleEndian=*/false);
+        result.heartRate = value.getUint16;(index, /*littleEndian=*/false);
         index += 2;
       } else {
-        result.heartRate = value.getUint8;//(index);
+        result.heartRate = value.getUint8;(index);
         index += 1;
       }
       let contactDetected = flags & 0x2;
