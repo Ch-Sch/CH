@@ -1,0 +1,227 @@
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Sample illustrating the use of Web Bluetooth / Get Characteristics.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Web Bluetooth / Get Characteristics Sample</title>
+    <script>
+     
+      window.addEventListener('error', function(error) {
+        if (ChromeSamples && ChromeSamples.setStatus) {
+          console.error(error);
+          ChromeSamples.setStatus(error.message + ' (Your browser may not support this feature.)');
+          error.preventDefault();
+        }
+      });
+    </script>
+    
+    
+    
+    
+    <link rel="icon" href="icon.png">
+    
+    <link rel="stylesheet" href="../styles/main.css">
+    
+    
+  </head>
+
+  <body>
+    <img class="pageIcon" src="icon.png">
+    <h1>Web Bluetooth / Get Characteristics Sample</h1>
+    <p class="availability">
+      Available in <a target="_blank" href="https://www.chromestatus.com/feature/5264933985976320">Chrome 50+</a> |
+      <a target="_blank" href="https://github.com/googlechrome/samples/blob/gh-pages/web-bluetooth/get-characteristics.html">View on GitHub</a> |
+      <a  href="index.html">Browse Samples</a>
+    </p>
+   
+<script>
+  if('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('service-worker.js');
+  }
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', function() {
+    const searchParams = new URL(location).searchParams;
+    const inputs = Array.from(document.querySelectorAll('input[id]'));
+
+    inputs.forEach(input => {
+      if (searchParams.has(input.id)) {
+        if (input.type == 'checkbox') {
+          input.checked = searchParams.get(input.id);
+        } else {
+          input.value = searchParams.get(input.id);
+          input.blur();
+        }
+      }
+      if (input.type == 'checkbox') {
+        input.addEventListener('change', function(event) {
+          const newSearchParams = new URL(location).searchParams;
+          if (event.target.checked) {
+            newSearchParams.set(input.id, event.target.checked);
+          } else {
+            newSearchParams.delete(input.id);
+          }
+          history.replaceState({}, '', Array.from(newSearchParams).length ?
+              location.pathname + '?' + newSearchParams : location.pathname);
+        });
+      } else {
+        input.addEventListener('input', function(event) {
+          const newSearchParams = new URL(location).searchParams;
+          if (event.target.value) {
+            newSearchParams.set(input.id, event.target.value);
+          } else {
+            newSearchParams.delete(input.id);
+          }
+          history.replaceState({}, '', Array.from(newSearchParams).length ?
+              location.pathname + '?' + newSearchParams : location.pathname);
+        });
+      }
+    });
+  });
+</script>
+
+
+
+
+<form>
+  <input id="service" type="text" list="services" autofocus placeholder="Bluetooth Service">
+  <input id="characteristic" type="text" list="characteristics" placeholder="Optional Bluetooth Characteristic">
+  <button>Get characteristics</button>
+</form>
+
+
+
+
+
+<script>
+  var ChromeSamples = {
+    log: function() {
+      var line = Array.prototype.slice.call(arguments).map(function(argument) {
+        return typeof argument === 'string' ? argument : JSON.stringify(argument);
+      }).join(' ');
+
+      document.querySelector('#log').textContent += line + '\n';
+    },
+
+    clearLog: function() {
+      document.querySelector('#log').textContent = '';
+    },
+
+    setStatus: function(status) {
+      document.querySelector('#status').textContent = status;
+    },
+
+    setContent: function(newContent) {
+      var content = document.querySelector('#content');
+      while(content.hasChildNodes()) {
+        content.removeChild(content.lastChild);
+      }
+      content.appendChild(newContent);
+    }
+  };
+</script>
+
+<h3>Live Output</h3>
+<div id="output" class="output">
+  <div id="content"></div>
+  <div id="status"></div>
+  <pre id="log"></pre>
+</div>
+
+
+<script>
+  if (/Chrome\/(\d+\.\d+.\d+.\d+)/.test(navigator.userAgent)){
+    // Let's log a warning if the sample is not supposed to execute on this
+    // version of Chrome.
+    if (50 > parseInt(RegExp.$1)) {
+      ChromeSamples.setStatus('Warning! Keep in mind this sample has been tested with Chrome ' + 50 + '.');
+    }
+  }
+</script>
+
+
+
+
+  
+    
+      <script>function onButtonClick() {
+
+
+  log('Requesting Bluetooth Device...');
+  navigator.bluetooth.requestDevice({filters: [{services: [0x2220]}]})
+  .then(device => {
+    log('Connecting to GATT Server...');
+    return device.gatt.connect();
+  })
+  .then(server => {
+    log('Getting Service...');
+    return server.getPrimaryService(0x2220);
+  })
+  .then(service => {
+    log('Getting Characteristics...');
+    if (characteristicUuid) {
+      // Get all characteristics that match this UUID.
+      return service.getCharacteristics(characteristicUuid);
+    }
+    // Get all characteristics.
+    return service.getCharacteristics();
+  })
+  .then(characteristics => {
+    log('> Characteristics: ' +
+      characteristics.map(c => c.uuid).join('\n' + ' '.repeat(19)));
+  })
+  .catch(error => {
+    log('Argh! ' + error);
+  });
+}
+</script>
+    
+  
+
+  
+    <h3>JavaScript Snippet</h3>
+  
+
+  
+  
+
+
+
+<script>
+  document.querySelector('form').addEventListener('submit', function(event) {
+    event.stopPropagation();
+    event.preventDefault();
+
+    if (isWebBluetoothEnabled()) {
+      ChromeSamples.clearLog();
+      onButtonClick();
+    }
+  });
+</script>
+
+<script>
+  log = ChromeSamples.log;
+
+  function isWebBluetoothEnabled() {
+    if (navigator.bluetooth) {
+      return true;
+    } else {
+      ChromeSamples.setStatus('Web Bluetooth API is not available.\n' +
+          'Please make sure the "Experimental Web Platform features" flag is enabled.');
+      return false;
+    }
+  }
+</script>
+
+
+    
+    <script>
+      
+    </script>
+  </body>
+</html>
