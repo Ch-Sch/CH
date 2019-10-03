@@ -7,7 +7,7 @@
   <button id="connect" type="button">Connect</button>
     <script
             
- function onButtonClick() {
+ function connect() {
   let serviceUuid = document.querySelector('#service').value;
   if (serviceUuid.startsWith('0x')) {
     serviceUuid = parseInt(serviceUuid);
