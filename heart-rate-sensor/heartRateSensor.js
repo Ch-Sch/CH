@@ -28,7 +28,7 @@
 
     /* Heart Rate Service */
 
-    getBodySensorLocation() {
+   /* getBodySensorLocation() {
       return this._readCharacteristicValue('body_sensor_location')
       .then(data => {
         let sensorLocation = data.getUint8(0);
@@ -43,7 +43,7 @@
           default: return 'Unknown';
         }
      });
-    }
+    } */
     startNotificationsHeartRateMeasurement() {
       return this._startNotifications(0x2221);
     }
