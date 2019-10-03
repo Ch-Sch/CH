@@ -1,4 +1,3 @@
-
 <!doctype html>
 
 <html lang="en">
@@ -10,8 +9,6 @@
     
     <title>Web Bluetooth / Notifications Sample</title>
     <script>
-      // Add a global error event listener early on in the page load, to help ensure that browsers
-      // which don't support specific functionality still end up displaying a meaningful message.
       window.addEventListener('error', function(error) {
         if (ChromeSamples && ChromeSamples.setStatus) {
           console.error(error);
@@ -33,14 +30,8 @@
     <img class="pageIcon" src="icon.png">
     <h1>Web Bluetooth / Notifications Sample</h1>
    
-<script>
-  if('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('service-worker.js');
-  }
-</script>
-
-<script>
-  window.addEventListener('DOMContentLoaded', function() {
+ <script>
+/*  window.addEventListener('DOMContentLoaded', function() {
     const searchParams = new URL(location).searchParams;
     const inputs = Array.from(document.querySelectorAll('input[id]'));
 
@@ -77,13 +68,13 @@
         });
       }
     });
-  });
-</script>
+  });*/
+</script> 
 
 
 <form>
-  <input id="service" type="text" list="services" autofocus placeholder="Bluetooth Service">
-  <input id="characteristic" type="text" list="characteristics" placeholder="Bluetooth Characteristic">
+ // <input id="service" type="text" list="services" autofocus placeholder="Bluetooth Service">
+ // <input id="characteristic" type="text" list="characteristics" placeholder="Bluetooth Characteristic">
   <button id="startNotifications">Start notifications</button>
   <button id="stopNotifications">Stop notifications</button>
 </form>
@@ -163,7 +154,7 @@ function onStartButtonClick() {
     });
   })
   .catch(error => {
-    log('Argh! ' + error);
+    log('Ups! ' + error);
   });
 }
 
@@ -176,7 +167,7 @@ function onStopButtonClick() {
           handleNotifications);
     })
     .catch(error => {
-      log('Argh! ' + error);
+      log('Ups! ' + error);
     });
   }
 }
