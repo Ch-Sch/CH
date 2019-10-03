@@ -1,29 +1,21 @@
 var myCharacteristic;
 
 function onStartButtonClick() {
-  let serviceUuid = document.querySelector('#service').value;
-  if (serviceUuid.startsWith('0x')) {
-    serviceUuid = parseInt(serviceUuid);
-  }
 
-  let characteristicUuid = document.querySelector('#characteristic').value;
-  if (characteristicUuid.startsWith('0x')) {
-    characteristicUuid = parseInt(characteristicUuid);
-  }
 
   log('Requesting Bluetooth Device...');
-  navigator.bluetooth.requestDevice({filters: [{services: [serviceUuid]}]})
+  navigator.bluetooth.requestDevice({filters: [{services: [0x2220]}]})
   .then(device => {
     log('Connecting to GATT Server...');
     return device.gatt.connect();
   })
   .then(server => {
     log('Getting Service...');
-    return server.getPrimaryService(serviceUuid);
+    return server.getPrimaryService(0x2220);
   })
   .then(service => {
     log('Getting Characteristic...');
-    return service.getCharacteristic(characteristicUuid);
+    return service.getCharacteristic(0x2221);
   })
   .then(characteristic => {
     myCharacteristic = characteristic;
