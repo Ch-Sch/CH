@@ -7,7 +7,7 @@
     <meta name="description" content="Sample illustrating the use of Web Bluetooth / Get Characteristics.">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <title>Web Bluetooth / Get Characteristics Sample</title>
+    <title>Poti Wert</title>
     <script>
      
       window.addEventListener('error', function(error) {
@@ -30,13 +30,7 @@
   </head>
 
   <body>
-    <img class="pageIcon" src="icon.png">
-    <h1>Web Bluetooth / Get Characteristics Sample</h1>
-    <p class="availability">
-      Available in <a target="_blank" href="https://www.chromestatus.com/feature/5264933985976320">Chrome 50+</a> |
-      <a target="_blank" href="https://github.com/googlechrome/samples/blob/gh-pages/web-bluetooth/get-characteristics.html">View on GitHub</a> |
-      <a  href="index.html">Browse Samples</a>
-    </p>
+
    
 <script>
   if('serviceWorker' in navigator) {
@@ -144,9 +138,6 @@
   }
 </script>
 
-
-
-
   
     
       <script>function onButtonClick() {
@@ -166,7 +157,7 @@
     log('Getting Characteristics...');
     if (characteristicUuid) {
       // Get all characteristics that match this UUID.
-      return service.getCharacteristics(characteristicUuid);
+      return service.getCharacteristics(0x2221);
     }
     // Get all characteristics.
     return service.getCharacteristics();
@@ -182,14 +173,6 @@
 </script>
     
   
-
-  
-    <h3>JavaScript Snippet</h3>
-  
-
-  
-  
-
 
 
 <script>
@@ -219,9 +202,5 @@
 </script>
 
 
-    
-    <script>
-      
-    </script>
   </body>
 </html>
