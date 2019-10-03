@@ -1,0 +1,104 @@
+<!doctype html>
+<html>
+  <head>
+    
+  </head>
+  <body>
+  
+    <script
+            
+ 
+ log('Requesting any Bluetooth Device...');
+  navigator.bluetooth.requestDevice({
+    filters: [0x2220]
+    //  acceptAllDevices: true,
+      optionalServices: ['device_information']})
+  .then(device => {
+    log('Connecting to GATT Server...');
+    return device.gatt.connect();
+  })
+  .then(server => {
+    log('Getting Device Information Service...');
+    return server.getPrimaryService(0x2220);
+  })
+  .then(service => {
+    log('Getting Device Information Characteristics...');
+    return service.getCharacteristics();
+  })
+  .then(characteristics => {
+    let queue = Promise.resolve();
+    let decoder = new TextDecoder('utf-8');
+    characteristics.forEach(characteristic => {
+      switch (characteristic.uuid) {
+
+        case BluetoothUUID.getCharacteristic(0x2221):
+          queue = queue.then(_ => characteristic.readValue()).then(value => {
+            log('> Manufacturer Name String: ' + decoder.decode(value));
+          });
+          break;
+
+      
+        case BluetoothUUID.getCharacteristic('system_id'):
+          queue = queue.then(_ => characteristic.readValue()).then(value => {
+            log('> System ID: ');
+            log('  > Manufacturer Identifier: ' +
+                padHex(value.getUint8(4)) + padHex(value.getUint8(3)) +
+                padHex(value.getUint8(2)) + padHex(value.getUint8(1)) +
+                padHex(value.getUint8(0)));
+            log('  > Organizationally Unique Identifier: ' +
+                padHex(value.getUint8(7)) + padHex(value.getUint8(6)) +
+                padHex(value.getUint8(5)));
+          });
+          break;
+
+        case BluetoothUUID.getCharacteristic('ieee_11073-20601_regulatory_certification_data_list'):
+          queue = queue.then(_ => characteristic.readValue()).then(value => {
+            log('> IEEE 11073-20601 Regulatory Certification Data List: ' +
+                decoder.decode(value));
+          });
+          break;
+
+        case BluetoothUUID.getCharacteristic('pnp_id'):
+          queue = queue.then(_ => characteristic.readValue()).then(value => {
+            log('> PnP ID:');
+            log('  > Vendor ID Source: ' +
+                (value.getUint8(0) === 1 ? 'Bluetooth' : 'USB'));
+            if (value.getUint8(0) === 1) {
+              log('  > Vendor ID: ' +
+                  (value.getUint8(1) | value.getUint8(2) << 8));
+            } else {
+              log('  > Vendor ID: ' +
+                  getUsbVendorName(value.getUint8(1) | value.getUint8(2) << 8));
+            }
+            log('  > Product ID: ' +
+                (value.getUint8(3) | value.getUint8(4) << 8));
+            log('  > Product Version: ' +
+                (value.getUint8(5) | value.getUint8(6) << 8));
+          });
+          break;
+
+        default: log('> Unknown Characteristic: ' + characteristic.uuid);
+      }
+    });
+    return queue;
+  })
+  .catch(error => {
+    log('Argh! ' + error);
+  });
+
+
+/* Utils */
+
+function padHex(value) {
+  return ('00' + value.toString(16).toUpperCase()).slice(-2);
+}
+
+function getUsbVendorName(value) {
+  // Check out page source to see what valueToUsbVendorName object is.
+  return value +
+      (value in valueToUsbVendorName ? ' (' + valueToUsbVendorName[value] + ')' : '');
+}
+
+    </script>
+  </body>
+</html>
