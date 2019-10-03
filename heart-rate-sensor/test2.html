@@ -4,10 +4,10 @@
     
   </head>
   <body>
-  
+  <button id="connect" type="button">Connect</button>
     <script
             
- 
+ function onButtonClick() {
  log('Requesting any Bluetooth Device...');
   navigator.bluetooth.requestDevice({
     filters: [0x2220]
@@ -85,7 +85,7 @@
   .catch(error => {
     log('Argh! ' + error);
   });
-
+      }
 
 /* Utils */
 
