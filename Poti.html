@@ -23,48 +23,6 @@
 
   <body>
     <h1>Web Bluetooth / Volt Output</h1>
-   
- <script>
-/*  window.addEventListener('DOMContentLoaded', function() {
-    const searchParams = new URL(location).searchParams;
-    const inputs = Array.from(document.querySelectorAll('input[id]'));
-
-    inputs.forEach(input => {
-      if (searchParams.has(input.id)) {
-        if (input.type == 'checkbox') {
-          input.checked = searchParams.get(input.id);
-        } else {
-          input.value = searchParams.get(input.id);
-          input.blur();
-        }
-      }
-      if (input.type == 'checkbox') {
-        input.addEventListener('change', function(event) {
-          const newSearchParams = new URL(location).searchParams;
-          if (event.target.checked) {
-            newSearchParams.set(input.id, event.target.checked);
-          } else {
-            newSearchParams.delete(input.id);
-          }
-          history.replaceState({}, '', Array.from(newSearchParams).length ?
-              location.pathname + '?' + newSearchParams : location.pathname);
-        });
-      } else {
-        input.addEventListener('input', function(event) {
-          const newSearchParams = new URL(location).searchParams;
-          if (event.target.value) {
-            newSearchParams.set(input.id, event.target.value);
-          } else {
-            newSearchParams.delete(input.id);
-          }
-          history.replaceState({}, '', Array.from(newSearchParams).length ?
-              location.pathname + '?' + newSearchParams : location.pathname);
-        });
-      }
-    });
-  });*/
-</script> 
-
 
 <form>
 
@@ -82,7 +40,7 @@
       }).join(' ');
 
      // document.querySelector('#log').textContent += line + '\n';
-       document.querySelector('#log').textContent;
+       document.querySelector('#log').textContent += line +;
     },
 
     clearLog: function() {
@@ -115,15 +73,6 @@
 <script>var myCharacteristic;
 
 function onStartButtonClick() {
-/*  let serviceUuid = document.querySelector('#service').value;
-  if (serviceUuid.startsWith('0x')) {
-    serviceUuid = parseInt(serviceUuid);
-  }
-
-  let characteristicUuid = document.querySelector('#characteristic').value;
-  if (characteristicUuid.startsWith('0x')) {
-    characteristicUuid = parseInt(characteristicUuid);
-  }*/
 
   log('Requesting Bluetooth Device...');
   navigator.bluetooth.requestDevice({filters: [{services: [0x2220]}]})
