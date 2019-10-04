@@ -26,8 +26,8 @@
 
 <form>
 
-  <button id="startNotifications">Start notifications</button>
-  <button id="stopNotifications">Stop notifications</button>
+  <button id="startNotifications">Start</button>
+  <button id="stopNotifications">Stop</button>
 </form>
 
 
@@ -124,7 +124,7 @@ function handleNotifications(event) {
   // TextDecoder to process raw data bytes.
     for (let i = 0; i < value.byteLength; i++) {
    // a.push('0x' + ('00' + value.getUint8(i).toString(16)).slice(-2));
-      a.push('0x' + ('00' + value.getUint8(i).toString(16)).slice(-2));
+      a.push(value.getUint8(i));
   }
     //log('> ' + a.join(' '));
    log(a.join('V'));
