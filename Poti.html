@@ -7,7 +7,7 @@
     <meta name="description" content="Sample illustrating the use of Web Bluetooth / Notifications.">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <title>Web Bluetooth / Notifications Sample</title>
+    <title>Web Bluetooth / Volt Output</title>
     <script>
       window.addEventListener('error', function(error) {
         if (ChromeSamples && ChromeSamples.setStatus) {
@@ -22,7 +22,7 @@
   </head>
 
   <body>
-    <h1>Web Bluetooth / Notifications Sample</h1>
+    <h1>Web Bluetooth / Volt Output</h1>
    
  <script>
 /*  window.addEventListener('DOMContentLoaded', function() {
@@ -81,7 +81,8 @@
         return typeof argument === 'string' ? argument : JSON.stringify(argument);
       }).join(' ');
 
-      document.querySelector('#log').textContent += line + '\n';
+     // document.querySelector('#log').textContent += line + '\n';
+       document.querySelector('#log').textContent;
     },
 
     clearLog: function() {
